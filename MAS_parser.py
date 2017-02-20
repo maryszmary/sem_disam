@@ -2,7 +2,7 @@
 import re
 
 class Word():
-    """docstring for Word"""
+    """a dictionary entry"""
     def __init__(self, content):
         self.content = content
         self.name = self.extract_name()
@@ -14,9 +14,12 @@ class Word():
         return re.sub('\\{\\[/?\'\\]\\}', '', name)
 
     def get_senses(self):
-        if '[b]2' in self.content:
-            print(self.content)
-        return [self.content]
+        res = ''.join(self.content.split('\n')[2:])
+        res = res.replace('\t', '').replace(chr(9633), '')
+        if '[b]2' in res:
+            res = res.split('[b]2')
+            return [re.sub('\\[.+?\\]', '', p) for p in res]
+        return [re.sub('\\[.+?\\]', '', res)]
         
 
 def data_extractor():
@@ -33,14 +36,7 @@ def get_adjs(di):
 
 words = data_extractor()
 adjs = get_adjs(words)
-print(len(adjs))
-hom = [adj for adj in adjs if '[b]1.' in adj.content]
-bihom = [adj for adj in adjs if '[b]2.' in adj.content]
-print(len(hom))
-print(len(bihom))
-diff = set(bihom).difference(set(hom))
-print([el.content for el in diff])
 
-# for adj in adjs:
-#     if adj.name == 'важный':
-#         print(adj.content)
+for adj in adjs:
+    if adj.homonimous:
+        print(adj.name + ';' + adj.senses[0] + ';' + adj.senses[1])
