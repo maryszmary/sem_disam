@@ -8,6 +8,8 @@ class Word():
         self.name = self.extract_name()
         self.senses = self.get_senses()
         self.homonimous = len(self.senses) > 1
+        self.notes = re.sub('\\[.+?\\]', '', 
+            self.content.split('\n')[1].strip('\t'))
 
     def extract_name(self):
         name = self.content.split('\n', 1)[0]
@@ -20,6 +22,12 @@ class Word():
             res = res.split('[b]2')
             return [re.sub('\\[.+?\\]', '', p) for p in res]
         return [re.sub('\\[.+?\\]', '', res)]
+
+    def clean_content(self):
+        res = ''.join(self.content.split('\n')[1:])
+        res = self.content.replace('\t', '').replace(chr(9633), '')
+        res = re.sub('\\[.+?\\]', '', res)
+        return res
         
 
 def data_extractor():
@@ -37,6 +45,7 @@ def get_adjs(di):
 words = data_extractor()
 adjs = get_adjs(words)
 
+print('adjective\t1_sense\t2_sense')
 for adj in adjs:
     if adj.homonimous:
-        print(adj.name + ';' + adj.senses[0] + ';' + adj.senses[1])
+        print(adj.name + '\t' + adj.senses[0] + '\t' + adj.senses[1])
