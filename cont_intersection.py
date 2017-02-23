@@ -7,7 +7,7 @@ import string
 FNAME = 'myagkiy'
 ADJ = 'мягкий'
 STOPWORDS = stopwords.words('russian') + [ADJ, 'свой', 'кто-то', 'какой-то',
-        'чей', 'твой', 'наш', 'ваш']
+        'чей', 'твой', 'наш', 'ваш', 'это', 'который', 'чем']
 NOISE = [' ' + el for el in list(string.punctuation) + list(string.digits)]\
     + [' %s ' % el for el in list(string.punctuation) + list(string.digits)]\
     + [el + ' ' for el in list(string.punctuation) + list(string.digits)]\
@@ -37,10 +37,9 @@ def get_meaning(cont_bag, sense_bag):
     first = sum([first_bag[word] for word in first_bag if word in cont_bag])
     second = sum([sec_bag[word] for word in sec_bag if word in cont_bag])
     if first == 0 and second == 0:
-        print('ZERO INTERSECTION')
-        return 'Not sure'
+        return 'ZERO INTERSECTION'
     elif first > second:
-        return 'First: ' + str([word for word in sec_bag if word in cont_bag]) + ' GIVING ' + str(first)
+        return 'First: ' + str([word for word in first_bag if word in cont_bag]) + ' GIVING ' + str(first)
     else:
         return 'Second'
 
