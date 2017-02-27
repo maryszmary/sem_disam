@@ -4,7 +4,7 @@ from pymystem3 import Mystem
 import json
 import string
 
-FNAME = 'myagkiy'
+FNAME = 'myagk.measuring'
 ADJ = 'мягкий'
 STOPWORDS = stopwords.words('russian') + [ADJ, 'свой', 'кто-то', 'какой-то',
         'чей', 'твой', 'наш', 'ваш', 'это', 'который', 'чем']
@@ -23,7 +23,7 @@ def disambiuguate(bags):
     for line in data:
         context = m.lemmatize(line)
         context = clean_data(context)
-        f.write(line + '\t' + str(context) + '\t' + get_meaning(context, bags) + '\n')
+        f.write(line + '\t' + get_meaning(context, bags) + '\n')
     f.close()
     return 0
 
@@ -39,7 +39,7 @@ def get_meaning(cont_bag, sense_bag):
     if first == 0 and second == 0:
         return 'ZERO INTERSECTION'
     elif first > second:
-        return 'First: ' + str([word for word in first_bag if word in cont_bag]) + ' GIVING ' + str(first)
+        return 'First' # + str([word for word in first_bag if word in cont_bag]) + ' GIVING ' + str(first)
     else:
         return 'Second'
 
