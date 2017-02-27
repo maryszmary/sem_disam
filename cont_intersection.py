@@ -4,8 +4,8 @@ from pymystem3 import Mystem
 import json
 import string
 
-FNAME = 'myagk.measuring'
-ADJ = 'мягкий'
+FNAME = 'addition'
+ADJ = 'полный'
 STOPWORDS = stopwords.words('russian') + [ADJ, 'свой', 'кто-то', 'какой-то',
         'чей', 'твой', 'наш', 'ваш', 'это', 'который', 'чем']
 NOISE = [' ' + el for el in list(string.punctuation) + list(string.digits)]\
